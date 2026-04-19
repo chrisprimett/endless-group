@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Endless Group</title>
+<link rel="preload" href="fonts/MenoBanner-Regular.otf" as="font" type="font/otf" crossorigin />
 <link rel="stylesheet" href="colors_and_type.css" />
 <style>
   :root {
@@ -147,7 +148,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(12px, 1.4vw, 20px);
     height: clamp(340px, 48vh, 460px);
-    margin-top: clamp(24px, 4vh, 56px);
+    margin-top: auto;
   }
 
   .tile {
@@ -327,7 +328,7 @@
   .foot {
     flex: 0 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: var(--space-4);
     margin-top: auto;
@@ -369,7 +370,9 @@
 
 <div class="page">
 
-  <header class="topbar"></header>
+  <header class="topbar">
+    <div class="mark"><span>endless</span></div>
+  </header>
 
   <section class="hero">
     <h1>
@@ -434,7 +437,9 @@
   </nav>
 
   <footer class="foot">
+    <div>© 2026 The Endless Group</div>
     <div class="infinity" aria-hidden="true"><img src="assets/brand-mark-ivory.png" alt="" /></div>
+    <div>Grown in the UAE</div>
   </footer>
 
 </div>
