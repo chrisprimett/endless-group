@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Endless Group</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+  :root {
+    --page-bg: #000;
+    --page-fg: #fff;
+    --hairline: rgba(255,255,255,0.18);
+    --hairline-soft: rgba(255,255,255,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* --- Page shell -------------------------------------------------------- */
+  .page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100vh;
+    padding: var(--space-6) var(--space-12) var(--space-6);
+  }
+
+  /* --- Top bar ----------------------------------------------------------- */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+  .topbar .mark {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+  .topbar .mark img {
+    height: 22px;
+    width: auto;
+    display: block;
+    opacity: 0.95;
+  }
+  .topbar .meta {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* --- Hero -------------------------------------------------------------- */
+  .hero {
+    flex: 0 0 auto;
+    padding: clamp(16px, 2.2vh, 32px) 0 clamp(16px, 2.2vh, 32px);
+    text-align: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.65);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    margin-bottom: var(--space-6);
+  }
+  .hero .eyebrow::before,
+  .hero .eyebrow::after {
+    content: "";
+    width: 24px; height: 1px;
+    background: rgba(255,255,255,0.35);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    text-transform: lowercase;
+    margin: 0 0 var(--space-4);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.18em;
+    flex-wrap: wrap;
+  }
+  /* Inline wordmark — sits between "the" and "group", vertically centered */
+  .hero h1 .wordmark {
+    display: block;
+    height: 0.7em;
+    width: auto;
+    margin: 0;
+    opacity: 0.98;
+  }
+  /* Flanking words "the" and "group" — DM Sans for clarity, tracked out */
+  .hero h1 .flank {
+    display: block;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-light);
+    font-size: 0.32em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.88);
+    line-height: 1;
+  }
+  .hero p.lede {
+    font-family: var(--font-sans);
+    font-weight: var(--weight-light);
+    font-size: clamp(15px, 1.3vw, 18px);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.68);
+    max-width: 52ch;
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+
+  /* --- Tiles ------------------------------------------------------------- */
+  .tiles {
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 1.4vw, 20px);
+    height: clamp(340px, 48vh, 460px);
+    margin-top: clamp(24px, 4vh, 56px);
+  }
+
+  .tile {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    isolation: isolate;
+    cursor: pointer;
+    background: #111;
+    border-radius: var(--radius-xs);
+  }
+
+  .tile .img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.02);
+    transition: transform 900ms var(--ease-out), filter 900ms var(--ease-out);
+    filter: grayscale(8%) contrast(1.02);
+  }
+  .tile:hover .img {
+    transform: scale(1.06);
+    filter: grayscale(0%) contrast(1.04);
+  }
+
+  .tile .overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0, calc(var(--tile-overlay, 0.55) - 0.1)) 0%,
+        rgba(0,0,0, var(--tile-overlay, 0.55)) 45%,
+        rgba(0,0,0, calc(var(--tile-overlay, 0.55) + 0.12)) 100%
+      );
+    transition: background 420ms var(--ease-out);
+  }
+  .tile:hover .overlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(0,0,0, calc(var(--tile-overlay, 0.55) - 0.18)) 0%,
+        rgba(0,0,0, calc(var(--tile-overlay, 0.55) - 0.05)) 45%,
+        rgba(0,0,0, calc(var(--tile-overlay, 0.55) + 0.05)) 100%
+      );
+  }
+
+  .tile .content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: clamp(24px, 2.4vw, 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+  }
+
+  .tile .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .tile .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+  .tile .idx {
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* Launching-soon badge */
+  .tile .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 6px 12px 6px 10px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    margin-bottom: 6px;
+  }
+  .tile .badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--endless-rosette);
+    box-shadow: 0 0 0 3px rgba(224,72,120,0.25);
+    animation: pulse 2.4s var(--ease-in-out) infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(224,72,120,0.25); }
+    50%      { box-shadow: 0 0 0 6px rgba(224,72,120,0.0); }
+  }
+
+  .tile .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .tile h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(34px, 3.4vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+    margin: 0;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .tile .subtitle {
+    font-family: var(--font-sans);
+    font-size: clamp(13px, 0.95vw, 15px);
+    font-weight: var(--weight-regular);
+    letter-spacing: 0.01em;
+    color: rgba(255,255,255,0.78);
+  }
+
+  .tile .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: var(--space-5);
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    font-weight: var(--weight-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: 0.8;
+    transition: opacity 220ms var(--ease-out), gap 420ms var(--ease-out);
+  }
+  .tile .cta .arrow {
+    display: inline-block;
+    width: 22px; height: 1px;
+    background: #fff;
+    position: relative;
+    transition: width 420ms var(--ease-out);
+  }
+  .tile .cta .arrow::after {
+    content: "";
+    position: absolute;
+    right: 0; top: 50%;
+    width: 6px; height: 6px;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .tile:hover .cta {
+    opacity: 1;
+    gap: 14px;
+  }
+  .tile:hover .cta .arrow {
+    width: 34px;
+  }
+
+  /* --- Footer ------------------------------------------------------------ */
+  .foot {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--hairline-soft);
+    font-family: var(--font-sans);
+    font-size: var(--text-micro);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+  .foot .infinity {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .foot .infinity img {
+    height: 28px;
+    width: auto;
+    display: block;
+    opacity: 0.85;
+  }
+
+  /* --- Responsive -------------------------------------------------------- */
+  @media (max-width: 900px) {
+    .page { padding: var(--space-6) var(--space-6) var(--space-8); height: auto; min-height: 100vh; }
+    .tiles {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .tile { min-height: 320px; }
+    .hero { padding: var(--space-8) 0 var(--space-4); }
+    .topbar .meta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="topbar">
+    <div class="mark">
+      <img src="assets/brand-mark-ivory.png" alt="Endless" />
+      <span>endless</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>
+      <span class="flank">the</span>
+      <img src="assets/primary-logo-ivory.png" alt="endless" class="wordmark" />
+      <span class="flank">group</span>
+    </h1>
+    <p class="lede">A circle of women, a wardrobe that moves, and the people who shape both. Three ventures, one quiet philosophy — nothing ends, everything continues.</p>
+  </section>
+
+  <nav class="tiles" aria-label="Endless Group ventures">
+
+    <a class="tile" href="#" data-tile="fashion" aria-label="Endless Fashion — Circular Fashion Platform">
+      <div class="img" id="img-fashion"></div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="top">
+          <span class="eyebrow">Circular fashion platform</span>
+          <span class="idx">01 / 03</span>
+        </div>
+        <div class="bottom">
+          <h2>endless fashion</h2>
+          <div class="subtitle">A resale marketplace for designer and contemporary pieces — considered, nearly-new, always moving on.</div>
+          <div class="cta">Visit <span class="arrow"></span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="tile" href="#" data-tile="club" aria-label="The Endless Club — Community">
+      <div class="img" id="img-club"></div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="top">
+          <span class="eyebrow">Community</span>
+          <span class="idx">02 / 03</span>
+        </div>
+        <div class="bottom">
+          <span class="badge">Launching soon</span>
+          <h2>the endless club</h2>
+          <div class="subtitle">A circle of women gathering around style, ideas, and the rooms in between. By invitation, in person.</div>
+          <div class="cta">Visit <span class="arrow"></span></div>
+        </div>
+      </div>
+    </a>
+
+    <a class="tile" href="#" data-tile="creators" aria-label="Endless Creators — Talent Agency">
+      <div class="img" id="img-creators"></div>
+      <div class="overlay"></div>
+      <div class="content">
+        <div class="top">
+          <span class="eyebrow">Talent agency</span>
+          <span class="idx">03 / 03</span>
+        </div>
+        <div class="bottom">
+          <span class="badge">Launching soon</span>
+          <h2>endless creators</h2>
+          <div class="subtitle">Representation for the women shaping fashion, culture, and conversation across the region.</div>
+          <div class="cta">Visit <span class="arrow"></span></div>
+        </div>
+      </div>
+    </a>
+
+  </nav>
+
+  <footer class="foot">
+    <div>© 2026 The Endless Group</div>
+    <div class="infinity" aria-hidden="true"><img src="assets/brand-mark-ivory.png" alt="" /></div>
+    <div>Grown in the UAE</div>
+  </footer>
+
+</div>
+
+<script>
+(() => {
+  const OVERLAY = 0.55;
+
+  const IMG_LIBRARY = {
+    fashion: [
+      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=80",
+    ],
+    club: [
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80",
+    ],
+    creators: [
+      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1600&q=80",
+    ],
+  };
+
+  document.documentElement.style.setProperty("--tile-overlay", OVERLAY.toFixed(2));
+
+  for (const [key, urls] of Object.entries(IMG_LIBRARY)) {
+    const el = document.getElementById("img-" + key);
+    if (el) el.style.backgroundImage = `url("${urls[0]}")`;
+  }
+})();
+</script>
+
+</body>
+</html>
