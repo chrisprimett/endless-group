@@ -112,7 +112,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.18em;
+    gap: 0.08em;
     flex-wrap: wrap;
   }
   /* Inline wordmark — sits between "the" and "group", vertically centered */
@@ -125,7 +125,8 @@
   }
   /* Flanking words "the" and "group" — DM Sans for clarity, tracked out */
   .hero h1 .flank {
-    display: block;
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-sans);
     font-weight: var(--weight-light);
     font-size: 0.32em;
@@ -237,9 +238,7 @@
   .tile .badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    align-self: flex-start;
-    padding: 6px 12px 6px 10px;
+    padding: 6px 12px;
     border: 1px solid rgba(255,255,255,0.4);
     border-radius: var(--radius-pill);
     font-family: var(--font-sans);
@@ -250,19 +249,7 @@
     color: rgba(255,255,255,0.92);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    margin-bottom: 6px;
-  }
-  .tile .badge::before {
-    content: "";
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--endless-rosette);
-    box-shadow: 0 0 0 3px rgba(224,72,120,0.25);
-    animation: pulse 2.4s var(--ease-in-out) infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(224,72,120,0.25); }
-    50%      { box-shadow: 0 0 0 6px rgba(224,72,120,0.0); }
+    white-space: nowrap;
   }
 
   .tile .bottom {
@@ -271,12 +258,12 @@
     gap: var(--space-3);
   }
   .tile h2 {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(34px, 3.4vw, 56px);
-    line-height: 1.0;
-    letter-spacing: -0.02em;
-    text-transform: lowercase;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-light);
+    font-size: clamp(26px, 2.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     margin: 0;
     color: #fff;
     text-wrap: balance;
@@ -289,11 +276,18 @@
     color: rgba(255,255,255,0.78);
   }
 
+  .tile .cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
   .tile .cta {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin-top: var(--space-5);
     font-family: var(--font-sans);
     font-size: var(--text-small);
     font-weight: var(--weight-bold);
@@ -429,8 +423,9 @@
         </div>
         <div class="bottom">
           <h2>endless fashion</h2>
-          <div class="subtitle">A resale platform.</div>
-          <div class="cta">Visit <span class="arrow"></span></div>
+          <div class="cta-row">
+            <div class="cta">Visit <span class="arrow"></span></div>
+          </div>
         </div>
       </div>
     </a>
@@ -444,10 +439,11 @@
           <span class="idx">02 / 03</span>
         </div>
         <div class="bottom">
-          <span class="badge">Launching soon</span>
           <h2>the endless club</h2>
-          <div class="subtitle">A circle of women gathering around style, ideas, and the rooms in between. By invitation, in person.</div>
-          <div class="cta">Visit <span class="arrow"></span></div>
+          <div class="cta-row">
+            <div class="cta">Visit <span class="arrow"></span></div>
+            <span class="badge">Launching soon</span>
+          </div>
         </div>
       </div>
     </a>
@@ -461,10 +457,11 @@
           <span class="idx">03 / 03</span>
         </div>
         <div class="bottom">
-          <span class="badge">Launching soon</span>
           <h2>endless creators</h2>
-          <div class="subtitle">Representation for the women shaping fashion, culture, and conversation across the region.</div>
-          <div class="cta">Visit <span class="arrow"></span></div>
+          <div class="cta-row">
+            <div class="cta">Visit <span class="arrow"></span></div>
+            <span class="badge">Launching soon</span>
+          </div>
         </div>
       </div>
     </a>
