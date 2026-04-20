@@ -12,6 +12,7 @@
     --page-fg: #fff;
     --hairline: rgba(255,255,255,0.18);
     --hairline-soft: rgba(255,255,255,0.10);
+    --group-text-size: clamp(18px, 2.24vw, 31px);
   }
 
   * { box-sizing: border-box; }
@@ -129,7 +130,7 @@
     align-items: center;
     font-family: var(--font-sans);
     font-weight: var(--weight-light);
-    font-size: 0.32em;
+    font-size: var(--group-text-size);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: rgba(255,255,255,0.88);
@@ -261,7 +262,7 @@
   .tile h2 {
     font-family: var(--font-sans);
     font-weight: var(--weight-light);
-    font-size: clamp(26px, 2.6vw, 44px);
+    font-size: var(--group-text-size);
     line-height: 1.05;
     letter-spacing: 0.06em;
     text-transform: uppercase;
