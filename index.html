@@ -72,8 +72,15 @@
   }
 
   /* --- Hero -------------------------------------------------------------- */
-  .hero {
+  .main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero {
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -405,6 +412,8 @@
     <span class="meta">Dubai · UAE</span>
   </header>
 
+  <div class="main">
+
   <section class="hero">
     <h1>
       <span class="flank">the</span>
@@ -469,6 +478,8 @@
     </a>
 
   </nav>
+
+  </div><!-- /.main -->
 
   <footer class="foot">
     <div>© 2026 The Endless Group</div>
